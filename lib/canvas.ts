@@ -1,6 +1,7 @@
 import { fabric } from "fabric";
 import { v4 as uuid4 } from "uuid";
-
+import dotenv from 'dotenv';
+dotenv.config();
 import {
   CanvasMouseDown,
   CanvasMouseMove,
@@ -71,7 +72,8 @@ export const handleCanvasMouseDown = ({
   if (selectedShapeRef.current === "eraser") {
     isDrawing.current = true;
     canvas.isDrawingMode = true;
-    canvas.freeDrawingBrush.color = "#1b1e27";
+    console.log(process.env.MODE)
+    canvas.freeDrawingBrush.color = (process.env.MODE ==='localhost' ?"#212730":"#212730");
     canvas.freeDrawingBrush.width = 50;
     return;
   }

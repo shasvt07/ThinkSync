@@ -24,8 +24,8 @@ const Navbar = ({
 
   return (
     <nav className='flex select-none items-center justify-between gap-4 bg-primary-black px-5 text-white'>
-      {/* <Image src="/assets/logo.svg" alt="FigPro Logo" width={58} height={20} /> */}
-      <h1>ThinkSync</h1>
+      <Image src="/assets/logo-r.png" alt="FigPro Logo" width={98} height={90} />
+      {/* <h1>ThinkSync</h1> */}
 
       <ul className='flex flex-row'>
         {navElements.map((item: ActiveElement | any) => (
