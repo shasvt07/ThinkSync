@@ -71,7 +71,7 @@ export const handleCanvasMouseDown = ({
   if (selectedShapeRef.current === "eraser") {
     isDrawing.current = true;
     canvas.isDrawingMode = true;
-    canvas.freeDrawingBrush.color = "#212730";
+    canvas.freeDrawingBrush.color = "#1b1e27";
     canvas.freeDrawingBrush.width = 50;
     return;
   }
