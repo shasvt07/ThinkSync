@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getJson } from "serpapi";
 import axios from "axios";
 import { handleImageUpload } from "@/lib/shapes";
+import { CircularProgress } from "@mui/material";
 
 export type InputImagUrl = {
   imageUrl: string;
@@ -21,6 +22,7 @@ const PromptImageInput = ({
   fabricRef,
   canvasRef,
 }: PromptImageInputProps) => {
+  const loading = useRef(false);
   const shapeRef = useRef<fabric.Object | null>(null);
   const syncShapeInStorage = useMutation(({ storage }, object) => {
     // if the passed object is null, return
@@ -75,6 +77,7 @@ const PromptImageInput = ({
 
       syncShapeInStorage(img);
       fabricRef.current?.requestRenderAll();
+      loading.current = false;
     });
   };
 
@@ -84,6 +87,7 @@ const PromptImageInput = ({
         cursorState.mode === CursorMode.PromptImage &&
         cursorState.message !== ""
       ) {
+        loading.current = true;
         try {
           const API = axios.create({
             baseURL: process.env.NEXT_PUBLIC_IMAGE_GENERATE_API,
@@ -96,7 +100,6 @@ const PromptImageInput = ({
           console.error("Error generating image:", error);
         }
       }
-
       setCursorState({
         mode: CursorMode.PromptImage,
         message: "",
@@ -119,7 +122,8 @@ const PromptImageInput = ({
       {cursorState.mode === CursorMode.PromptImage && (
         <>
           {/* Custom Cursor shape */}
-          {/* <CursorSVG color='#000' /> */}
+          <CursorSVG color='#000' />
+          {loading.current && <CircularProgress className='my-6' />}
 
           <div
             className='absolute left-2 top-5 bg-blue-500 px-4 py-2 text-sm leading-relaxed text-white'
