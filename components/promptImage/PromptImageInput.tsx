@@ -7,9 +7,7 @@ import { useMutation } from "@/liveblocks.config";
 import { v4 as uuidv4 } from "uuid";
 import { getJson } from "serpapi";
 import axios from "axios";
-
-import dotenv from "dotenv";
-dotenv.config();
+import { handleImageUpload } from "@/lib/shapes";
 
 export type InputImagUrl = {
   imageUrl: string;
@@ -87,34 +85,18 @@ const PromptImageInput = ({
         cursorState.message !== ""
       ) {
         try {
-          console.log(process.env.OPENAI_API);
           const response = await axios.post(
-            "https://api.openai.com/v1/images/generations",
+            process.env.NEXT_PUBLIC_IMAGE_GENERATE_API as string,
             {
-              model: "dall-e-3",
               prompt: cursorState.message,
-              n: 1,
-              size: "200x200",
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.OPENAI_API}`, // Replace with your OpenAI API key
-              },
             }
           );
-
-          if (response.data && response.data.length > 0) {
-            console.log(response.data[0].url);
-            handleImageUpload(response.data[0].url);
-          } else {
-            throw new Error("Image generation failed.");
-          }
+          handleImageUpload(response.data);
         } catch (error) {
           console.error("Error generating image:", error);
-          return null;
         }
       }
+
       setCursorState({
         mode: CursorMode.PromptImage,
         message: "",

@@ -1,7 +1,5 @@
 import { fabric } from "fabric";
 import { v4 as uuid4 } from "uuid";
-import dotenv from "dotenv";
-dotenv.config();
 import {
   CanvasMouseDown,
   CanvasMouseMove,
