@@ -86,7 +86,7 @@ const PromptImageInput = ({
       ) {
         try {
           const response = await axios.post(
-            process.env.NEXT_PUBLIC_IMAGE_GENERATE_API as string,
+            "https:/thinksyncaiutils.onrender.com/api/getImage"
             {
               prompt: cursorState.message,
             }
