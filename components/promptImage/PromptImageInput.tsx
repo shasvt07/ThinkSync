@@ -85,12 +85,12 @@ const PromptImageInput = ({
         cursorState.message !== ""
       ) {
         try {
-          const response = await axios.post(
-            "https:/thinksyncaiutils.onrender.com/api/getImage",
-            {
-              prompt: cursorState.message,
-            }
-          );
+          const API = axios.create({
+            baseURL: process.env.NEXT_PUBLIC_IMAGE_GENERATE_API,
+          });
+          const response = await API.post("/getImage", {
+            prompt: cursorState.message,
+          });
           handleImageUpload(response.data);
         } catch (error) {
           console.error("Error generating image:", error);
